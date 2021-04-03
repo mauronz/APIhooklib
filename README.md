@@ -43,7 +43,7 @@ FARPROC SetHookByAddr(
 **return value**: both functions return the address of a trampoline to the original target function. If one of the hooks needs to use another hooked function, it must call this trampoline (with the same prototype of the hooked function). In this way we avoid "false positives" and dangerous recursions.
 
 ## Hook routines
-Both hook routines must use the stdcall calling convention.
+Both hook routines must use the cdecl calling convention.
 The prototype of the before-hook is identical to that of the hooked function.
 The prototype of the before-hook is identical to that of the hooked function, with an additional parameter for the return value.
 For example:
