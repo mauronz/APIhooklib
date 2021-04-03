@@ -9,7 +9,7 @@ enum CallConv {
 Set hooks for an API. Other than the dll and API names, the number of arguments is required.
 There are two types of hook, one that is executed before the API, and one immediately after it.
 It is possible to set only one or both the hooks (if the parameter is NULL the hook will not be set).
-IMPORTANT: Both functions MUST be __stdcall. 
+IMPORTANT: Both functions MUST be __cdecl. 
 lpBeforeHook has the same prototype of the API, while lpAfterHook has as additional last parameter the return value of the API.
 If bDoCall=TRUE, the API is called, otherwise it is bypassed. Note that if bDoCall=FALSE, the return value
 of the last executed hook will be returned to the caller.
@@ -23,7 +23,8 @@ extern "C" FARPROC __cdecl SetHookByName(
 	FARPROC lpBeforeHook, 
 	FARPROC lpAfterHook,
 	BOOL bDoCall,
-	BOOL bOverrideRet);
+	BOOL bOverrideRet,
+	BOOL bOverrideParams);
 
 extern "C" FARPROC __cdecl SetHookByAddr(
 	LPVOID addr,
@@ -32,6 +33,32 @@ extern "C" FARPROC __cdecl SetHookByAddr(
 	FARPROC lpBeforeHook,
 	FARPROC lpAfterHook,
 	BOOL bDoCall,
-	BOOL bOverrideRet);
+	BOOL bOverrideRet,
+	BOOL bOverrideParams);
 
 extern "C" BOOL __cdecl RemoveHook(LPSTR lpDllName, LPSTR lpFuncName);
+
+#define NO_ID -1
+
+extern "C" FARPROC __cdecl SetHookByNameWithId(
+	int id,
+	LPSTR lpDllName,
+	LPSTR lpFuncName,
+	DWORD dwNumArgs,
+	CallConv callConv,
+	FARPROC lpBeforeHook,
+	FARPROC lpAfterHook,
+	BOOL bDoCall,
+	BOOL bOverrideRet,
+	BOOL bOverrideParams);
+
+extern "C" FARPROC __cdecl SetHookByAddrWithId(
+	int id,
+	LPVOID addr,
+	DWORD dwNumArgs,
+	CallConv callConv,
+	FARPROC lpBeforeHook,
+	FARPROC lpAfterHook,
+	BOOL bDoCall,
+	BOOL bOverrideRet,
+	BOOL bOverrideParams);
